@@ -12,6 +12,15 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\Admin::class,
+            'user' => \App\Http\Middleware\User::class,
+            'suspend' => \App\Http\Middleware\Suspend::class,
+            'maintenance' => \App\Http\Middleware\Maintenance::class,
+            'api-auth' => \App\Http\Middleware\ApiAuth::class,
+            'verify' => \App\Http\Middleware\UserVerify::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
