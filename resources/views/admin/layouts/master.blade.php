@@ -117,9 +117,8 @@
     <script src="{{static_asset('admin/js/vendors.js')}}"></script>
     <script src="{{static_asset('admin/js/core.js')}}"></script>
     <script src="{{static_asset('admin/js/app.js')}}"></script>
-    {{-- <script src="{{static_asset('admin/js/bootstrap-toggle.js')}}"></script> --}}
-    <script src="{{static_asset('js/sweetalert.min.js')}}"></script>
-    <script src="{{static_asset('js/snackbar.min.js')}}"></script>
+    <script src="{{static_asset('admin/js/sweetalert.min.js')}}"></script>
+    <script src="{{static_asset('admin/js/snackbar.min.js')}}"></script>
     @yield('scripts')
 
     @include('inc.js')

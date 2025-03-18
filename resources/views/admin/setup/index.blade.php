@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-header h4">Website Information </div>
     <div class="card-body">
-        <form action="{{route('admin.setting.update')}}" method="post" class="row">
+        <form action="{{route('admin.setting.update')}}" method="post" class="row ajaxForm">
             @csrf
             <!-- Website Name -->
             <div class="form-group col-md-6">
