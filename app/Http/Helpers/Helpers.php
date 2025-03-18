@@ -322,6 +322,19 @@ function send_emails($email, $type, $shortCodes = [])
     }
 
 }
+
+function sendNotification(string $type, User $user, array $shortcodes, $custom = [])
+{
+    return [
+        'type' => $type,
+        'user_id' => $user->id,
+        'data' => json_encode($shortcodes + $custom),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ];
+
+}
+
 // send email
 function general_email($email, $mes, $sub)
 {
