@@ -4,29 +4,23 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class Admin
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $guard = 'admin'): Response
     {
-       if (auth()->check() && auth()->user()->user_role == "admin") { 
-            if(Auth::user()->user_role == 'admin' || Auth::user()->user_role == 'staff') {
-                return $next($request);
-            }else{
-                return redirect()->route('index');
-            }
+        if (! \Auth::guard($guard)->check()) {
+            session(['old_link' => url()->current()]);
+
+            return to_route('admin.login');
         }
-        else{
-            session(['link' => url()->current()]);
-            return redirect()->route('admin.login');
-        }
+
+        return $next($request);
     }
 }
