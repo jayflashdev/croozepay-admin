@@ -49,7 +49,7 @@
             $mpayments = App\Models\Mdeposit::orderByDesc('id')->limit(20)->get();
         @endphp
     {{-- </div> --}}
-    <div class="col-lg-11">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex align-items-center justify-content-between">
@@ -76,7 +76,7 @@
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$item->code}}</td>
-                            <td>{{$item->user->username}}</td>
+                            <td>{{$item->user->username ?? ''}}</td>
                             <td>{{format_price($item->amount)}}</td>
                             <td>{{show_datetime($item->created_at)}}</td>
                             <td>{{$item->message}}</td>

@@ -1,3 +1,6 @@
+@php
+    $adminUser = Auth::guard('admin')->user();
+@endphp
 <div class="vertical-menu">
 
     <div data-simplebar class="h-100">
@@ -26,7 +29,7 @@
                         <span>API Balance</span>
                     </a>
                 </li>
-                @if(Auth::user()->user_role == 'admin' || in_array('1', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('1', json_decode($adminUser->staff->role->permissions)))
                 <li class="menu-title">Services</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -65,7 +68,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('2', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('2', json_decode($adminUser->staff->role->permissions)))
                 <li class="menu-title">Users</li>
                 <li>
                     <a href="{{route('admin.users.index')}}" class=" waves-effect">
@@ -92,7 +95,7 @@
                 </li> --}}
                 @endif
                 <li class="menu-title">Transactions</li>
-                @if(Auth::user()->user_role == 'admin' || in_array('4', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('4', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-text-line"></i>
@@ -112,7 +115,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('3', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('3', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="{{route('admin.mdeposits')}}" class=" waves-effect">
                         <i class="ri-swap-line"></i>
@@ -126,7 +129,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('4', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('4', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="{{route('admin.transactions')}}" class=" waves-effect">
                         <i class="ri-wallet-3-fill"></i>
@@ -135,7 +138,7 @@
                 </li>
                 @endif
                 <li class="menu-title">Support</li>
-                @if(Auth::user()->user_role == 'admin' || in_array('5', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('5', json_decode($adminUser->staff->role->permissions)))
                 {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-check-fill"></i>
@@ -170,7 +173,7 @@
                 </li>
                 @endif
                 <li class="menu-title">Settings</li>
-                @if(Auth::user()->user_role == 'admin' || in_array('6', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('6', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-settings-2-fill"></i>
@@ -182,7 +185,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('7', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('7', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="{{route('admin.setting.payment')}}" class=" waves-effect">
                         <i class="fa fa-cog"></i>
@@ -190,7 +193,7 @@
                     </a>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('8', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('8', json_decode($adminUser->staff->role->permissions)))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fa fa-cog"></i>
@@ -203,7 +206,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(Auth::user()->user_role == 'admin' || in_array('9', json_decode(Auth::user()->staff->role->permissions)))
+                @if($adminUser->role == 'super' || in_array('9', json_decode($adminUser->staff->role->permissions)))
                 <li hidden>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-group-line"></i>
@@ -222,9 +225,6 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('admin.clear.cache')}}">Clear Cache</a></li>
-                        @if(Auth::user()->user_role == 'admin' || in_array('10', json_decode(Auth::user()->staff->role->permissions)))
-                        <li><a href="{{route('admin.system.update')}}">Update</a></li>
-                        @endif
                     </ul>
                 </li>
             </ul>
