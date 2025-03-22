@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Decoder extends Model
 {
     use HasFactory;
-    
+
     public function plans()
     {
         return $this->hasMany(CablePlan::class);

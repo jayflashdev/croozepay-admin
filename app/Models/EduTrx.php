@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class EduTrx extends Model
 {
     use HasFactory;
+
     public function user()
     {
-    return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
+
     public function education()
     {
-    return $this->belongsTo(Education::class);
+        return $this->belongsTo(Education::class);
     }
 }

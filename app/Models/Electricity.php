@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Electricity extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'status',
         'image',
-        "fee",
-        "minimum",
+        'fee',
+        'minimum',
         'msorg1',
         'msorg2',
         'msorg3',

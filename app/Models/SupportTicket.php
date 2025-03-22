@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SupportTicket extends Model
 {
     use HasFactory;
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -17,6 +18,7 @@ class SupportTicket extends Model
     {
         return $this->hasMany(TicketComment::class, 'ticket_id');
     }
+
     protected $fillable = [
         'status',
         'ticket',

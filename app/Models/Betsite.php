@@ -12,8 +12,8 @@ class Betsite extends Model
     protected $fillable = [
         'name',
         'status',
-        "fee",
-        'image','minimum',
+        'fee',
+        'image', 'minimum',
         'clubkonnect',
         'code',
         'ncwallet',

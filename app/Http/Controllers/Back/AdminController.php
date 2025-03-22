@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\Mdeposit;
-use App\Models\{
-    DecoderTrx,
-    Message,
-    NetworkTrx
-};
+use App\Models\Message;
+use App\Models\NetworkTrx;
 use App\Models\Page;
 use App\Models\Transaction;
 use App\Models\User;
@@ -23,8 +20,8 @@ use Str;
 
 class AdminController extends Controller
 {
-    //Dashboard
-    function index()
+    // Dashboard
+    public function index()
     {
         $monthsAgo = Carbon::now()->subMonths(4);
         $today = Carbon::now()->today();
@@ -33,7 +30,7 @@ class AdminController extends Controller
             return User::where('blocked', 0)->get(['balance', 'bonus', 'name']);
         });
         // Use caching for mpayment data
-        $todayTrx = Cache::remember('adminTrans', 30, function () use ($today) {
+        $todayTrx = Cache::remember('adminTrans', 30, function () {
             return Transaction::where('status', 'successful')
                 ->whereDate('updated_at', today())
                 ->sum('amount');
@@ -104,21 +101,24 @@ class AdminController extends Controller
         return view('admin.stats', compact('deposit', 'mpayment', 'mpayment2', 'networkTrx', 'datas', 'transactions'));
     }
 
-    function balance()
+    public function balance()
     {
         return view('admin.balance');
     }
-    function login()
+
+    public function login()
     {
         // check if admin loggedin and show login page
         return view('admin.login');
     }
+
     // Profile
-    function profile()
+    public function profile()
     {
         return view('admin.profile');
     }
-    function update_profile(Request $request)
+
+    public function update_profile(Request $request)
     {
 
         $user = Auth::user();
@@ -131,6 +131,7 @@ class AdminController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
         return back()->withSuccess(__('Profile Updated Successfully.'));
     }
 
@@ -138,27 +139,34 @@ class AdminController extends Controller
     public function pages()
     {
         $pages = Page::all();
+
         return view('admin.pages.index', compact('pages'));
     }
+
     public function create_page()
     {
         return view('admin.pages.create');
     }
+
     public function store_page(Request $request)
     {
         $page = new Page();
         $page->title = $request->title;
         $page->content = $request->content;
-        $page->type = "custom";
+        $page->type = 'custom';
         $page->slug = Str::slug($request->slug);
         $page->save();
+
         return redirect()->route('admin.pages.index')->withSuccess(__('Page Created Successfully'));
     }
+
     public function edit_page($id)
     {
         $page = Page::findorFail($id);
+
         return view('admin.pages.edit', compact('page'));
     }
+
     public function update_page($id, Request $request)
     {
         if (Page::where('id', '!=', $id)->where('slug', $request->slug)->first() == null) {
@@ -167,17 +175,22 @@ class AdminController extends Controller
             $page->content = $request->content;
             $page->slug = Str::slug($request->slug);
             $page->save();
-            return redirect()->route('admin.pages.index')->withSuccess(__("Page updated successfully"));
+
+            return redirect()->route('admin.pages.index')->withSuccess(__('Page updated successfully'));
         }
+
         return redirect()->back()->withError(__('Slug has been used. Try again'));
     }
-    function delete_page($id)
+
+    public function delete_page($id)
     {
         $page = Page::findOrFail($id);
-        if ($page->type != "custom") {
+
+        if ($page->type != 'custom') {
             return back()->withError('Something Went Wrong');
         }
         $page->delete();
+
         return back()->withSuccess('Page deleted successfully');
     }
 
@@ -187,6 +200,7 @@ class AdminController extends Controller
         $notifications = Cache::remember('adminNotifications', 160, function () {
             return Message::orderByDesc('id')->get();
         });
+
         return view('admin.notify', compact('notifications'));
     }
 
@@ -196,18 +210,22 @@ class AdminController extends Controller
         $notification->title = $request->title;
         $notification->message = $request->message;
         $notification->save();
+
         return redirect()->route('admin.notifications.index')->withSuccess(__('Notification Created Successfully'));
     }
 
     public function deleteNotification($id)
     {
         $notification = Message::find($id);
+
         if ($notification) {
             $notification->delete();
             \Cache::forget('adminNotifications');
         }
+
         return back()->withSuccess(__('Notification Deleted Successfully'));
     }
+
     // Clear cache
     public function clearCache()
     {
@@ -215,6 +233,7 @@ class AdminController extends Controller
         Artisan::call('config:clear');
         Artisan::call('route:clear');
         Artisan::call('view:clear');
+
         return back()->withSuccess('Cache Cleared Successfully.');
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CablePlan extends Model
 {
     use HasFactory;
+
     public function decoder()
     {
         return $this->belongsTo(Decoder::class);
@@ -18,9 +19,9 @@ class CablePlan extends Model
         'decoder_id',
         'type',
         'status',
-        "price",
-        "reseller",
-        "api",
+        'price',
+        'reseller',
+        'api',
         'msorg1',
         'msorg2',
         'msorg3',

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,7 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
-        'trxpin'
+        'trxpin',
     ];
 
     /**
@@ -46,11 +45,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'payvessel_banks' =>'array',
-        'virtual_banks' =>'array',
-        'billstack_banks' =>'array'
+        'payvessel_banks' => 'array',
+        'virtual_banks' => 'array',
+        'billstack_banks' => 'array',
     ];
-
 
     public function verificationCodes()
     {
@@ -71,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Deposit::class);
     }
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
@@ -85,10 +84,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(User::class, 'ref_id');
     }
+
     public function ticket_comments()
     {
         return $this->hasMany(TicketComment::class);
     }
+
     public function tickets()
     {
         return $this->hasMany(SupportTicket::class);

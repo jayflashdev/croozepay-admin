@@ -13,6 +13,7 @@ class StaffController extends Controller
     public function index()
     {
         $staffs = Admin::all();
+
         return view('admin.staff.index', compact('staffs'));
     }
 
@@ -37,7 +38,7 @@ class StaffController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Staff Created successfully',
-            'url'=> route('admin.staffs.index'),
+            'url' => route('admin.staffs.index'),
         ]);
     }
 
@@ -58,15 +59,16 @@ class StaffController extends Controller
 
         if ($request->password) {
             $validated['password'] = Hash::make($request->password);
-        }else{
+        } else {
             unset($validated['password']);
         }
 
         $staff->update($validated);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Staff updated successfully',
-            'url'=> route('admin.staffs.index'),
+            'url' => route('admin.staffs.index'),
         ]);
     }
 
@@ -77,6 +79,7 @@ class StaffController extends Controller
         }
 
         $staff->delete();
+
         return redirect()->route('admin.staffs.index')->withSuccess('Staff deleted successfully');
     }
 
@@ -122,6 +125,7 @@ class StaffController extends Controller
     public function destroy_role(Role $role)
     {
         $role->delete();
+
         return redirect()->route('admin.roles.index')->withSuccess('Role deleted successfully');
     }
 }

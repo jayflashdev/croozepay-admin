@@ -11,21 +11,22 @@ class User
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             session(['link' => url()->current()]);
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Unauthenticated',
-                    'redirect' => route('login')
+                    'redirect' => route('login'),
                 ], 401);
             }
+
             return redirect()->route('login');
         }
 
@@ -35,26 +36,30 @@ class User
         if ($user->blocked) {
             auth()->logout();
             $message = "Your account has been deleted or doesn't exist.";
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => $message,
-                    'redirect' => route($redirectTo)
+                    'redirect' => route($redirectTo),
                 ], 403);
             }
+
             return redirect()->route($redirectTo)->withEmodal($message)->withErrors($message);
         }
 
         if ($user->suspend) {
             auth()->logout();
-            $message = "Your account has been suspended. Contact admin for re-activation.";
+            $message = 'Your account has been suspended. Contact admin for re-activation.';
+
             if ($request->wantsJson()) {
                 return response()->json([
                     'status' => 'error',
                     'message' => $message,
-                    'redirect' => route($redirectTo)
+                    'redirect' => route($redirectTo),
                 ], 403);
             }
+
             return redirect()->route($redirectTo)->withEmodal($message)->withErrors($message);
         }
 
@@ -67,9 +72,10 @@ class User
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Redirecting to admin index',
-                    'redirect' => route('admin.index')
+                    'redirect' => route('admin.index'),
                 ]);
             }
+
             return redirect()->route('admin.index');
         }
 
@@ -77,9 +83,10 @@ class User
             return response()->json([
                 'status' => 'success',
                 'message' => 'Redirecting to index',
-                'redirect' => route('index')
+                'redirect' => route('index'),
             ]);
         }
+
         return redirect()->route('index');
     }
 }

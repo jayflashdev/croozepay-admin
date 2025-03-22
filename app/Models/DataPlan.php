@@ -22,9 +22,9 @@ class DataPlan extends Model
         'status',
         'size',
         'day',
-        "price",
-        "reseller",
-        "api",
+        'price',
+        'reseller',
+        'api',
         'msorg1',
         'msorg2',
         'msorg3',
@@ -44,9 +44,8 @@ class DataPlan extends Model
         'vtpass',
     ];
 
-
     public function getFullNameAttribute()
     {
-        return $this->name . ' ' . $this->size. ' ' . $this->day;
+        return $this->name.' '.$this->size.' '.$this->day;
     }
 }

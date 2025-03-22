@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Beneficiary extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'type',
         'number',
         'name',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -23,14 +25,17 @@ class Beneficiary extends Model
     {
         return $query->where('type', 'network');
     }
+
     public function scopeCable($query)
     {
         return $query->where('type', 'cable');
     }
+
     public function scopePower($query)
     {
         return $query->where('type', 'power');
     }
+
     public function scopeBet($query)
     {
         return $query->where('type', 'bet');

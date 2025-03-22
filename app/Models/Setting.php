@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
     protected $fillable = [
-        'title','name',
-        'email','support_email',
+        'title', 'name',
+        'email', 'support_email',
         'description',
         'address',
         'phone',
@@ -17,8 +16,8 @@ class Setting extends Model
         'favicon',
         'touch_icon',
         'facebook',
-        'twitter','youtube',
-        'whatsapp','whatsapp_group',
+        'twitter', 'youtube',
+        'whatsapp', 'whatsapp_group',
         'instagram', 'telegram',
         'primary_color',
         'sec_color', 'currency',
@@ -26,7 +25,7 @@ class Setting extends Model
         'custom_js',
         'custom_css',
         'is_adsense',
-        'meta_keywords','is_announcement','announcement','docs_link'
+        'meta_keywords', 'is_announcement', 'announcement', 'docs_link',
     ];
 
     protected static function boot()
@@ -36,5 +35,4 @@ class Setting extends Model
             \Cache::forget('Settings');
         });
     }
-
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AirtimeSwap extends Model
 {
     use HasFactory;
+
     public function network()
     {
         return $this->belongsTo(Network::class);

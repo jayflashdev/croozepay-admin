@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Network extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'image',
@@ -39,16 +39,19 @@ class Network extends Model
         'data_cg',
         'data_g',
         'data_sme',
-        'rate'
+        'rate',
     ];
+
     public function datasub()
     {
         return $this->hasMany(DataPlan::class);
     }
+
     public function datacards()
     {
         return $this->hasMany(DatacardPlan::class);
     }
+
     public function rechargecards()
     {
         return $this->hasMany(RechargePlan::class);

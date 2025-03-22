@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class RechargePin extends Model
 {
     use HasFactory;
+
     public function network()
     {
         return $this->belongsTo(Network::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

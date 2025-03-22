@@ -12,7 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
-        'monnify/webhook-notification','paystack/success/', 'flutter/success/','payvessel*','billstack*'
+
+        'monnify/webhook-notification', 'paystack/success/', 'flutter/success/', 'payvessel*', 'billstack*',
     ];
 }
