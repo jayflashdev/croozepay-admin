@@ -38,7 +38,7 @@
     <script src="{{static_asset('admin/js/core.js')}}"></script>
     <script src="{{static_asset('admin/js/app.js')}}"></script>
 
-    <script src="{{static_asset('js/snackbar.min.js')}}"></script>
+    <script src="{{static_asset('admin/js/snackbar.min.js')}}"></script>
     @yield('scripts')
     <script>
         @if(Session::get('success'))

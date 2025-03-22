@@ -26,9 +26,9 @@
                     @if($staff->user != null)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            <td>{{$staff->user->name}}</td>
-                            <td>{{$staff->user->email}}</td>
-                            <td>{{$staff->user->username}}</td>
+                            <td>{{$staff->user->name ?? "Deleted"}}</td>
+                            <td>{{$staff->user->email ?? "Deleted"}}</td>
+                            <td>{{$staff->user->username ?? "none"}}</td>
                             <td>
                                 @if ($staff->role != null)
                                     {{ $staff->role->name }}

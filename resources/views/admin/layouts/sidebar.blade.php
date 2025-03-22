@@ -207,7 +207,7 @@
                 </li>
                 @endif
                 @if($adminUser->role == 'super' || in_array('9', json_decode($adminUser->staff->role->permissions)))
-                <li hidden>
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-group-line"></i>
                         <span>Staff</span>

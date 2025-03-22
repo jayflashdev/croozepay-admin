@@ -24,7 +24,7 @@
                     <td>{{ $ticket->ticket }} <p class="mb-0">{{show_date($ticket->updated_at)}}</p>
                     </td>
                     <td>{{ text_shortener($ticket->subject, 120) }}</td>
-                    <td>{{ $ticket->user->username }}</td>
+                    <td>{{ $ticket->user->username ?? "Deleted" }}</td>
                     <td>
 
                         @if($ticket->status == 0)
