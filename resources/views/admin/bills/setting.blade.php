@@ -45,27 +45,14 @@
         </div>
     </div>
 
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-3 d-none">
         <div class="card">
             <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Education</h3>
+                <h3 class="mb-0 h6 text-center">Exam PIN</h3>
             </div>
             <div class="card-body text-center">
                 <label class="jdv-switch jdv-switch-success mb-0">
                     <input type="checkbox" onchange="updateSystem(this, 'is_education')" @if(sys_setting('is_education') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-     <div class="col-sm-6 col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">DataCard</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'is_datacard')" @if(sys_setting('is_datacard') == 1) checked @endif >
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -84,46 +71,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Bulk SMS</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'is_bulksms')" @if(sys_setting('is_bulksms') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-sm-6 col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Airtime to Cash</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'airtime_cash')" @if(sys_setting('airtime_cash') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Airtime PIN</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'airtime_pin')" @if(sys_setting('airtime_pin') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
     <div class="col-sm-6 col-md-3">
         <div class="card">
             <div class="card-header">
@@ -138,7 +86,7 @@
         </div>
     </div>
 
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-3 d-none" >
         <div class="card">
             <h6 class="card-header text-center">API Access</h5>
             <div class="card-body text-center">
