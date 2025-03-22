@@ -3,33 +3,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-6 col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Maintenance</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'is_maintenance')" @if(sys_setting('is_maintenance') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="mb-0 h6 text-center">Force HTTPS</h3>
-            </div>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'is_https')" @if(sys_setting('is_https') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-6 col-md-6 col-lg-4">
         <div class="card">
             <div class="card-header">
                 <h3 class="mb-0 h6 text-center">Verify Email</h3>
@@ -42,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-6 col-md-6 col-lg-4">
         <div class="card">
             <div class="card-header">
                 <h3 class="mb-0 h6 text-center">Referral Email</h3>
@@ -55,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-6 col-lg-4">
         <div class="card">
             <div class="card-header">
                 <h3 class="mb-0 h6 text-center">Welcome Email</h3>
@@ -68,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-lg-4">
+    <div class="col-6 col-lg-4">
         <div class="card">
             <div class="card-header">
                 <h3 class="mb-0 h6 text-center">Transaction Email</h3>
@@ -76,17 +50,6 @@
             <div class="card-body text-center">
                 <label class="jdv-switch jdv-switch-success mb-0">
                     <input type="checkbox" onchange="updateSystem(this, 'trx_email')" @if(sys_setting('trx_email') == 1) checked @endif >
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-4">
-        <div class="card">
-            <h5 class="card-header">API Access</h5>
-            <div class="card-body text-center">
-                <label class="jdv-switch jdv-switch-success mb-0">
-                    <input type="checkbox" onchange="updateSystem(this, 'developer_access')" @if(sys_setting('developer_access') == 1) checked @endif >
                     <span class="slider round"></span>
                 </label>
             </div>

@@ -2,18 +2,19 @@
 @section('title', 'Email Settings')
 
 @section('content')
-<div class="row"> 
+<div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.setting.env_key') }}" method="POST">
+                <form action="{{ route('admin.setting.env_key') }}" class="ajaxForm" method="POST">
                     @csrf
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label class="form-label">{{__('MAIL MAILER')}}</label>
                         </div>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" value="{{  env('MAIL_MAILER') }}" disabled> 
+                            <input type="hidden" name="types[]" value="MAIL_MAILER">
+                            <input type="text" class="form-control" value="{{  env('MAIL_MAILER') }}" name="MAIL_MAILER" >
                         </div>
                     </div>
                     <div class="form-group row">
@@ -78,10 +79,10 @@
                         <div class="col-lg-8">
                             <input type="text" class="form-control" name="MAIL_FROM_NAME" value="{{  env('MAIL_FROM_NAME') }}" placeholder="{{__('MAIL FROM NAME')}}">
                         </div>
-                    </div>      
+                    </div>
                     <div class="form-group mb-0 text-end">
-                        <button class="btn btn-primary" type="submit">{{__('Save')}}</button>
-                    </div> 
+                        <button class="btn btn-primary w-100" type="submit">{{__('Save')}}</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -93,7 +94,7 @@
                 <h5 class="mb-0 h6">{{__('Test SMTP configuration')}}</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.email.test') }}" method="post">
+                <form action="{{ route('admin.email.test') }}" method="post" class="ajaxForm">
                     @csrf
                     <div class="row">
                         <div class="col">

@@ -13,13 +13,11 @@ class EmailController extends Controller
 {
     public function setting()
     {
-
         return view('admin.email.settings');
     }
 
     public function templates()
     {
-
         $templates = EmailTemplate::all();
 
         return view('admin.email.template', compact('templates'));
@@ -27,7 +25,6 @@ class EmailController extends Controller
 
     public function edit_template($id)
     {
-
         $template = EmailTemplate::findorFail($id);
         $template->shortcodes = json_decode($template->shortcodes);
 
@@ -36,7 +33,6 @@ class EmailController extends Controller
 
     public function update_template($id, Request $request)
     {
-
         $request->validate([
             'subject' => 'required',
             'content' => 'required',
@@ -105,7 +101,15 @@ class EmailController extends Controller
             Mail::to($request->email)->queue(new Mukamail($data));
         } catch (\Exception $e) {
             // dd($e);
+            if ($request->wantsJson()) {
+                return response()->json(['status' => 'error', 'message' => __('Check SMTP Settings'), 'error' => $e->getMessage()], 500);
+            }
+
             return back()->with('error', __('Check SMTP Settings'));
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'success', 'message' => __('Email sent Successfully.')], 200);
         }
 
         return back()->with('success', __('Email sent Successfully.'));
