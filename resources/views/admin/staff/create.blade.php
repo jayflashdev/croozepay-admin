@@ -9,9 +9,9 @@
             <a class="btn btn-primary btn-sm" href="{{route('admin.staffs.index')}}"><i class="fas fa-arrow-left"></i> @lang('Back')</a>
         </div>
     </div>
-    <form action="{{ route('admin.staffs.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.staffs.store') }}" class="ajaxForm" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card-body"> 
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -24,14 +24,10 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="mobile">{{__('Phone')}}</label>
-                        <input type="text" placeholder="{{__('Phone')}}" id="mobile" name="mobile" class="form-control" required>
+                        <input type="text" placeholder="{{__('Phone')}}" id="mobile" name="phone" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label" for="name">{{__('Username')}}</label>
-                        <input type="text" placeholder="{{__('Userame')}}" id="username" name="username" class="form-control" required>
-                    </div>
                     <div class="form-group">
                         <label class="form-label" for="password">{{__('Password')}}</label>
                         <input type="password" placeholder="{{__('Password')}}" id="password" name="password" class="form-control" required>

@@ -1,5 +1,6 @@
 @php
     $adminUser = Auth::guard('admin')->user();
+    $permissions = json_decode($adminUser->role->permissions ?? '[]', true);
 @endphp
 <div class="vertical-menu">
 
@@ -29,7 +30,7 @@
                         <span>API Balance</span>
                     </a>
                 </li>
-                @if($adminUser->role == 'super' || in_array('1', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('bills', $permissions))
                 <li class="menu-title">Services</li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -68,7 +69,7 @@
                     </a>
                 </li>
                 @endif
-                @if($adminUser->role == 'super' || in_array('2', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('users', $permissions))
                 <li class="menu-title">Users</li>
                 <li>
                     <a href="{{route('admin.users.index')}}" class=" waves-effect">
@@ -94,8 +95,26 @@
                     </ul>
                 </li> --}}
                 @endif
+                @if($adminUser->type == 'super' || in_array('payments', $permissions))
+                <li class="menu-title">Payments</li>
+                <li>
+                    <a href="{{ route('admin.deposits') }}" class="waves-effect">
+                        <i class="ri-swap-line"></i>
+                        <span>Deposits</span>
+                    </a>
+                </li>
+                @endif
+                @if($adminUser->type == 'super' || in_array('transactions', $permissions))
                 <li class="menu-title">Transactions</li>
-                @if($adminUser->role == 'super' || in_array('4', json_decode($adminUser->staff->role->permissions)))
+                <li>
+                    <a href="{{ route('admin.transactions') }}" class="waves-effect">
+                        <i class="ri-wallet-3-fill"></i>
+                        <span>Transactions</span>
+                    </a>
+                </li>
+                @endif
+
+                @if($adminUser->type == 'super' || in_array('sales', $permissions))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-text-line"></i>
@@ -115,30 +134,8 @@
                     </ul>
                 </li>
                 @endif
-                @if($adminUser->role == 'super' || in_array('3', json_decode($adminUser->staff->role->permissions)))
-                <li>
-                    <a href="{{route('admin.mdeposits')}}" class=" waves-effect">
-                        <i class="ri-swap-line"></i>
-                        <span>Manual Deposits</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{route('admin.deposits')}}" class=" waves-effect">
-                        <i class="ri-swap-line"></i>
-                        <span>Deposits</span>
-                    </a>
-                </li>
-                @endif
-                @if($adminUser->role == 'super' || in_array('4', json_decode($adminUser->staff->role->permissions)))
-                <li>
-                    <a href="{{route('admin.transactions')}}" class=" waves-effect">
-                        <i class="ri-wallet-3-fill"></i>
-                        <span>Transactions</span>
-                    </a>
-                </li>
-                @endif
+                @if($adminUser->type == 'super' || in_array('support', $permissions))
                 <li class="menu-title">Support</li>
-                @if($adminUser->role == 'super' || in_array('5', json_decode($adminUser->staff->role->permissions)))
                 {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-mail-check-fill"></i>
@@ -161,19 +158,9 @@
                         <span>Newsletter</span>
                     </a>
                 </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fa fa-folder"></i>
-                        <span>Pages</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.pages.create')}}">Create Page</a></li>
-                        <li><a href="{{route('admin.pages.index')}}">All Pages</a></li>
-                    </ul>
-                </li>
                 @endif
                 <li class="menu-title">Settings</li>
-                @if($adminUser->role == 'super' || in_array('6', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('email_settings', $permissions))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class=" ri-settings-2-fill"></i>
@@ -185,7 +172,7 @@
                     </ul>
                 </li>
                 @endif
-                @if($adminUser->role == 'super' || in_array('7', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('payment_settings', $permissions))
                 <li>
                     <a href="{{route('admin.setting.payment')}}" class=" waves-effect">
                         <i class="fa fa-cog"></i>
@@ -193,7 +180,7 @@
                     </a>
                 </li>
                 @endif
-                @if($adminUser->role == 'super' || in_array('8', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('settings', $permissions))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fa fa-cog"></i>
@@ -206,7 +193,7 @@
                     </ul>
                 </li>
                 @endif
-                @if($adminUser->role == 'super' || in_array('9', json_decode($adminUser->staff->role->permissions)))
+                @if($adminUser->type == 'super' || in_array('staffs', $permissions))
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-group-line"></i>

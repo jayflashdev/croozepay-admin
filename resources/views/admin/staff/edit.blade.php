@@ -9,21 +9,21 @@
             <a class="btn btn-primary btn-sm" href="{{route('admin.staffs.index')}}"><i class="fas fa-arrow-left"></i> @lang('Back')</a>
         </div>
     </div>
-    <form action="{{ route('admin.staffs.update',$staff->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.staffs.update',$staff->id) }}" class="ajaxForm" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card-body row">                    
+        <div class="card-body row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label" for="name">{{__('Name')}}</label>
-                    <input type="text" value="{{ $staff->user->name }}" placeholder="{{__('Name')}}" id="name" name="name" class="form-control" required>
+                    <input type="text" value="{{ $staff->name }}" placeholder="{{__('Name')}}" id="name" name="name" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="email">{{__('Email Address')}}</label>
-                    <input type="text" value="{{ $staff->user->email }}" placeholder="{{__('Email Address')}}" id="email" name="email" class="form-control" required>
+                    <input type="text" value="{{ $staff->email }}" placeholder="{{__('Email Address')}}" id="email" name="email" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="mobile">{{__('Phone')}}</label>
-                    <input type="text" value="{{ $staff->user->phone }}" placeholder="{{__('Phone')}}" id="mobile" name="mobile" class="form-control" required>
+                    <input type="text" value="{{ $staff->phone }}" placeholder="{{__('Phone')}}" id="mobile" name="phone" class="form-control" required>
                 </div>
             </div>
             <div class="col-md-6">

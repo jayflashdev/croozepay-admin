@@ -24,16 +24,18 @@ use Str;
 class AdminController extends Controller
 {
     //Dashboard
-    function index(){
+    function index()
+    {
         $monthsAgo = Carbon::now()->subMonths(4);
+        $today = Carbon::now()->today();
         // Use caching for users data
         $users = Cache::remember('adminUsers', 60, function () {
             return User::where('blocked', 0)->get(['balance', 'bonus', 'name']);
         });
         // Use caching for mpayment data
-        $mpayment = Cache::remember('adminMpayment', 60, function () use ($monthsAgo) {
-            return Mdeposit::where('status', 1)
-                ->where('created_at', '>=', $monthsAgo)
+        $todayTrx = Cache::remember('adminTrans', 30, function () use ($today) {
+            return Transaction::where('status', 'successful')
+                ->whereDate('updated_at', today())
                 ->sum('amount');
         });
         $datas = [
@@ -42,7 +44,7 @@ class AdminController extends Controller
             'bonus' => $users->sum('bonus'),
         ];
 
-        return view('admin.index', compact('users','mpayment','datas'));
+        return view('admin.index', compact('users', 'todayTrx', 'datas'));
     }
 
     public function stats()
@@ -85,7 +87,7 @@ class AdminController extends Controller
         // Use caching for transactions data
         $transactions = Cache::remember('adminTransaction', 60, function () use ($monthsAgo) {
             return Transaction::where('created_at', '>=', $monthsAgo)
-                ->get(['status', 'amount', 'type','profit','created_at','service']);
+                ->get(['status', 'amount', 'type', 'profit', 'created_at', 'service']);
         });
 
         // Data aggregation
@@ -99,21 +101,25 @@ class AdminController extends Controller
             'p_all' => $transactions->where('status', 'successful')->sum('profit'),
         ];
 
-        return view('admin.stats', compact('deposit', 'mpayment', 'mpayment2', 'networkTrx', 'datas','transactions'));
+        return view('admin.stats', compact('deposit', 'mpayment', 'mpayment2', 'networkTrx', 'datas', 'transactions'));
     }
 
-    function balance(){
+    function balance()
+    {
         return view('admin.balance');
     }
-    function login(){
+    function login()
+    {
         // check if admin loggedin and show login page
         return view('admin.login');
     }
     // Profile
-    function profile(){
+    function profile()
+    {
         return view('admin.profile');
     }
-    function update_profile (Request $request){
+    function update_profile(Request $request)
+    {
 
         $user = Auth::user();
         $user->name = $request->name;
@@ -121,7 +127,7 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->email_verify = $request->email_verify ?? 0;
 
-        if($request->password != null){
+        if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
         $user->save();
@@ -129,12 +135,12 @@ class AdminController extends Controller
     }
 
     // Pages
-    public function pages ()
+    public function pages()
     {
         $pages = Page::all();
-        return view('admin.pages.index' ,compact('pages'));
+        return view('admin.pages.index', compact('pages'));
     }
-    public function create_page ()
+    public function create_page()
     {
         return view('admin.pages.create');
     }
@@ -148,14 +154,14 @@ class AdminController extends Controller
         $page->save();
         return redirect()->route('admin.pages.index')->withSuccess(__('Page Created Successfully'));
     }
-    public function edit_page ($id)
+    public function edit_page($id)
     {
         $page = Page::findorFail($id);
-        return view('admin.pages.edit' ,compact('page'));
+        return view('admin.pages.edit', compact('page'));
     }
-    public function update_page ($id, Request $request)
+    public function update_page($id, Request $request)
     {
-        if(Page::where('id','!=', $id)->where('slug', $request->slug)->first() == null){
+        if (Page::where('id', '!=', $id)->where('slug', $request->slug)->first() == null) {
             $page = Page::findorFail($id);
             $page->title = $request->title;
             $page->content = $request->content;
@@ -163,12 +169,12 @@ class AdminController extends Controller
             $page->save();
             return redirect()->route('admin.pages.index')->withSuccess(__("Page updated successfully"));
         }
-    	return redirect()->back()->withError(__('Slug has been used. Try again'));
+        return redirect()->back()->withError(__('Slug has been used. Try again'));
     }
     function delete_page($id)
     {
         $page = Page::findOrFail($id);
-        if($page->type != "custom") {
+        if ($page->type != "custom") {
             return back()->withError('Something Went Wrong');
         }
         $page->delete();
@@ -196,8 +202,7 @@ class AdminController extends Controller
     public function deleteNotification($id)
     {
         $notification = Message::find($id);
-        if($notification)
-        {
+        if ($notification) {
             $notification->delete();
             \Cache::forget('adminNotifications');
         }

@@ -3,98 +3,88 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use App\Models\Staff;
+use App\Models\Admin;
 use App\Models\Role;
-use App\Models\User;
-use Hash;
-use Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
-    //
     public function index()
     {
-        $staffs = Staff::all();
+        $staffs = Admin::all();
         return view('admin.staff.index', compact('staffs'));
     }
+
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.staff.create', compact('roles'));
+        return view('admin.staff.create', ['roles' => Role::all()]);
     }
 
     public function store(Request $request)
-    {   
-        if(User::where('email', $request->email)->first() == null){
-            $user = new User;
-            $user->name = $request->name;
-            $user->username = $request->username;
-            $user->email = $request->email;
-            $user->phone = $request->mobile;
-            $user->user_role = "staff";
-            $user->password = Hash::make($request->password);
-            if($user->save()){
-                $staff = new Staff;
-                $staff->user_id = $user->id;
-                $staff->role_id = $request->role_id;
-                if($staff->save()){
-                    return redirect()->route('admin.staffs.index')->withSuccess('Staff has been inserted successfully');
-                }
-            }
-        }
-
-        return back()->withError('Email already used');
-    }
-
-    public function edit($id)
     {
-        $staff = Staff::findOrFail($id);
-        $roles = Role::all();
-        return view('admin.staff.edit', compact('staff', 'roles'));
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|min:8',
+            'password' => 'required|string|min:8',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $validated['password'] = $request->password ? Hash::make($request->password) : null;
+        Admin::create($validated);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Staff Created successfully',
+            'url'=> route('admin.staffs.index'),
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function edit(Admin $staff)
     {
-        $staff = Staff::findOrFail($id);
-        $user = $staff->user;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->mobile;
-        if(strlen($request->password) > 0){
-            $user->password = Hash::make($request->password);
-        }
-        if($user->save()){
-            $staff->role_id = $request->role_id;
-            if($staff->save()){
-                return redirect()->route('admin.staffs.index')->withSuccess(__('Staff has been updated successfully'));
-            }
-        }
-
-        
-        return back()->withError(__('Something went wrong'));
-                
+        return view('admin.staff.edit', ['staff' => $staff, 'roles' => Role::all()]);
     }
 
-    public function destroy($id)
+    public function update(Request $request, Admin $staff)
     {
-        $user = User::find(Staff::findOrFail($id)->user->id);
-        $user->user_role = "user";
-        $user->save();
-        if(Staff::destroy($id)){
-            return redirect()->route('admin.staffs.index')->withSuccess( __('Staff has been deleted successfully'));
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => "required|string|email|max:255|unique:users,email,{$staff->id}",
+            'phone' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        if ($request->password) {
+            $validated['password'] = Hash::make($request->password);
+        }else{
+            unset($validated['password']);
         }
 
-        return back()->withError(__('Something went wrong'));
+        $staff->update($validated);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Staff updated successfully',
+            'url'=> route('admin.staffs.index'),
+        ]);
     }
 
-    // Roles
+    public function destroy(Admin $staff)
+    {
+        if ($staff->type === 'super') {
+            return back()->withError('You cannot delete a super admin');
+        }
+
+        $staff->delete();
+        return redirect()->route('admin.staffs.index')->withSuccess('Staff deleted successfully');
+    }
+
     public function roles()
     {
-        $roles = Role::all();
-        return view('admin.staff.roles.index', compact('roles'));
+        return view('admin.staff.roles.index', ['roles' => Role::all()]);
     }
+
     public function create_role()
     {
         return view('admin.staff.roles.create');
@@ -102,44 +92,36 @@ class StaffController extends Controller
 
     public function store_role(Request $request)
     {
-        if($request->has('permissions')){
-            $role = new Role;
-            $role->name = $request->name;
-            $role->permissions = json_encode($request->permissions);
-            $role->save();
+        $request->validate(['name' => 'required|string', 'permissions' => 'required|array']);
 
-            return redirect()->route('admin.roles.index')->withSuccess(__('Role has been inserted successfully'));
-        }
-        
-        return back()->withError(__('Something went wrong'));
+        Role::create([
+            'name' => $request->name,
+            'permissions' => json_encode($request->permissions),
+        ]);
 
+        return redirect()->route('admin.roles.index')->withSuccess('Role created successfully');
     }
 
-    public function edit_role(Request $request, $id)
+    public function edit_role(Role $role)
     {
-        $role = Role::findOrFail($id);
         return view('admin.staff.roles.edit', compact('role'));
     }
 
-    public function update_role(Request $request, $id)
+    public function update_role(Request $request, Role $role)
     {
-        $role = Role::findOrFail($id);
+        $request->validate(['name' => 'required|string', 'permissions' => 'required|array']);
 
-        if($request->has('permissions')){
-            $role->name = $request->name;
-            $role->permissions = json_encode($request->permissions);
-            $role->save();
+        $role->update([
+            'name' => $request->name,
+            'permissions' => json_encode($request->permissions),
+        ]);
 
-            return redirect()->route('admin.roles.index')->withSuccess('Role has been updated successfully');
-        }
-        
-        return back()->withError('Something went wrong');
+        return redirect()->route('admin.roles.index')->withSuccess('Role updated successfully');
     }
 
-    public function destroy_role($id)
+    public function destroy_role(Role $role)
     {
-        $role = Role::findOrFail($id);
-        Role::destroy($id);
-        return redirect()->route('admin.roles.index')->withSuccess(__('Role has been deleted successfully'));
+        $role->delete();
+        return redirect()->route('admin.roles.index')->withSuccess('Role deleted successfully');
     }
 }

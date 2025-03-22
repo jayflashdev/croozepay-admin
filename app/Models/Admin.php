@@ -14,10 +14,15 @@ class Admin extends Authenticatable
     protected $guard = 'admin';
 
     protected $fillable = [
-        'name', 'email', 'password', 'push_token',
+        'name', 'email', 'password', 'push_token','phone','role_id'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

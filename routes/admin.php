@@ -29,6 +29,7 @@ Route::middleware('admin')->group(function(){
 
     Route::controller(AdminController::class)->group(function(){
         Route::get('/', 'index')->name('index');
+        Route::get('/dashboard', 'index')->name('dashboard');
         Route::get('/statistics', 'stats')->name('stats');
         Route::get('/balance', 'balance')->name('balance');
         Route::get('/profile', 'profile')->name('profile');
@@ -207,9 +208,9 @@ Route::middleware('admin')->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{id}', 'edit')->name('edit');
-        Route::post('/update/{id}', 'update')->name('update');
-        Route::get('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/edit/{staff}', 'edit')->name('edit');
+        Route::post('/update/{staff}', 'update')->name('update');
+        Route::get('/delete/{staff}', 'destroy')->name('destroy');
     });
     Route::controller(StaffController::class)->prefix('roles')->as('roles.')->group(function(){
         Route::get('/', 'roles')->name('index');
