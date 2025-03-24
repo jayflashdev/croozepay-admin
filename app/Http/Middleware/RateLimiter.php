@@ -2,19 +2,17 @@
 
 namespace App\Http\Middleware;
 
-
 use Closure;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Carbon;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
 
 class RateLimiter
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -23,8 +21,9 @@ class RateLimiter
         $user = auth()->user(); // Assuming you have user authentication in place
 
         // Set a unique cache key for the user and the current URL
-        $cacheKey = 'rate_limiter:' . $user->username;
+        $cacheKey = 'rate_limiter:'.$user->username;
         $limitInterval = 30;
+
         // Check if a cache entry for the key exists
         if (Cache::has($cacheKey)) {
             $lastRequestTime = Cache::get($cacheKey);

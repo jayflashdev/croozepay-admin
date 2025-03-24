@@ -2,14 +2,12 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
 
 class MainEmail extends Mailable
 {
     public $data;
+
     /**
      * Create a new message instance.
      *
@@ -17,7 +15,7 @@ class MainEmail extends Mailable
      */
     public function __construct($data)
     {
-        //
+
         $this->data = $data;
     }
 
@@ -30,11 +28,12 @@ class MainEmail extends Mailable
     {
         $femail = env('MAIL_FROM_ADDRESS');
         $fname = env('MAIL_FROM_NAME');
-        //return $this->view('view.name');
+
+        // return $this->view('view.name');
         return $this->view('email.main')
-                    ->from($femail, $fname )
-                    ->subject($this->data['subject'])
-                    ->with('data', $this->data);
-                ;
+            ->from($femail, $fname)
+            ->subject($this->data['subject'])
+            ->with('data', $this->data);
+
     }
 }

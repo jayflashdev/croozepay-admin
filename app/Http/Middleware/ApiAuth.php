@@ -11,7 +11,6 @@ class ApiAuth
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -19,19 +18,22 @@ class ApiAuth
     {
 
         $request->headers->set('Accept', 'application/json');
+
         try {
             $headers = $request->headers;
             $apikey = $headers->get('Authorization');
             $apikey = str_replace('Token ', '', $apikey);
-            if (!$apikey) {
+
+            if (! $apikey) {
                 return response()->json(['status' => 'error', 'message' => 'Your Authorization Header must Be Your API KEY.'], 401);
             }
 
             $user = User::where('api_key', $apikey)->whereSuspend(0)->first();
 
-            if (!$user) {
+            if (! $user) {
                 return response()->json(['status' => 'error', 'message' => 'Invalid Access Token or Account Disabled'], 401);
             }
+
             if ($user->blocked == 1) {
                 return response()->json(['status' => 'error', 'message' => 'Invalid Access Token or Account has been blocked. Please Contact admin'], 401);
             }
