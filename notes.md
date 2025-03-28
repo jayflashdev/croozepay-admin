@@ -10,3 +10,19 @@
 - SMTp emails
 - Google and Apple Payment
 - Queue the email newsletter
+
+APIs: vtpass, Irecharge
+
+https://documenter.getpostman.com/view/7979057/S1a637Gz
+
+For token generation , 
+Baxi dot com
+IRecharge.ng
+Access power dot com  X
+Easy pay dot com
+Vtpass.com 
+
+
+## Payment gateways :
+paystack 
+Monnify
